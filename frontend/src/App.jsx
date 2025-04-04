@@ -19,6 +19,12 @@ function App() {
   const [lastRequest, setLastRequest] = useState(0);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
+  // API Client with base URL
+  const apiClient = axios.create({
+    baseURL: import.meta.env.VITE_API_URL || '/api',
+    timeout: 25000
+  });
+
   const cacheStory = (key, content) => {
     localStorage.setItem(`story_${key}`, content);
   };
@@ -56,33 +62,25 @@ function App() {
       if (cached) {
         setStory(cached);
         addNotification("Loaded from cache", "success");
-        setLoading(false); // Ensure loading stops for cached stories
         return;
       }
 
-      // Use environment variable or relative path for API URL
-      const apiUrl = process.env.REACT_APP_API_URL || '/api/story/generate';
-      const response = await axios.post(
-        apiUrl,
-        {
-          ...formData,
-          characters: formData.characters.split(',').map(c => c.trim()).filter(c => c)
-        },
-        { timeout: 25000 }
-      );
+      const response = await apiClient.post('/story/generate', {
+        ...formData,
+        characters: formData.characters.split(',').map(c => c.trim()).filter(c => c)
+      });
 
       if (response.data?.story) {
         setStory(response.data.story);
         cacheStory(cacheKey, response.data.story);
-        setNotifications([]); // Clear old notifications on success
         addNotification("Story generated successfully", "success");
       } else {
         throw new Error('Empty response from server');
       }
     } catch (err) {
       const errorMessage = err.response?.data?.error || 
-                          (err.code === 'ECONNABORTED' ? 'Request timed out. Try again later.' : 
-                          'Failed to generate story. Check your connection or try again.');
+                         (err.code === 'ECONNABORTED' ? 'Request timed out' : 
+                         err.message || 'Failed to generate story');
       addNotification(errorMessage);
     } finally {
       setLoading(false);
@@ -103,6 +101,7 @@ function App() {
           <button
             onClick={toggleDarkMode}
             className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
           >
             {isDarkMode ? <FaSun className="text-gold-600" /> : <FaMoon className="text-gray-600" />}
           </button>
