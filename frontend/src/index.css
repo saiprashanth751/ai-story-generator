@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+/* Tailwind-inspired animations */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-in-out {
+  0% { opacity: 0; transform: translateY(-10px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+.animate-fade-in-out {
+  animation: fade-in-out 5s ease-in-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+/* Parchment colors */
+.bg-parchment-light {
+  background-color: #2A2A2A;
+}
+
+.bg-parchment-dark {
+  background-color: #1F1F1F;
+}
+
+.border-gold-600 {
+  border-color: #E8B923;
+}
+
+.text-gold-600 {
+  color: #E8B923;
+}
+
+.font-lora {
+  font-family: 'Lora', serif;
+}
+
+.font-medieval-sharp {
+  font-family: 'MedievalSharp', cursive;
+}
+
+/* Custom scrollbar styles */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 10px; /* Slightly wider for better visibility */
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: transparent; /* Transparent track to blend with background */
+  margin-top: 10px; /* Add some space at the top */
+  margin-bottom: 10px; /* Add some space at the bottom */
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #D4AF37; /* Gold color */
+  border-radius: 5px;
+  border: 2px solid transparent; /* Adds padding effect */
+  background-clip: padding-box; /* Ensures border doesn't affect thumb color */
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #E8B923; /* Brighter gold on hover */
+}
+
+/* Dark mode adjustments */
+.dark .overflow-y-auto::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dark .overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #E8B923;
+}
+
+.dark .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #D4AF37;
+}
