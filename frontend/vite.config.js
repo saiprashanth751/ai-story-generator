@@ -13,10 +13,13 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: import.meta.env.VITE_API_URL || 'http://localhost:5000',
+        target: process.env.VITE_API_URL || 'http://localhost:5000',
         changeOrigin: true,
-        secure: true
+        secure: false
       }
     }
+  },
+  define: {
+    'process.env.VITE_API_URL': JSON.stringify(process.env.VITE_API_URL)
   }
 })
