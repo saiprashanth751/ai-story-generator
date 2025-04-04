@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const path = require('path'); // Add this line to import the path module
 const storyRoutes = require('./routes/storyRoutes');
 
 const app = express();
@@ -12,16 +13,14 @@ app.use(express.json());
 // Routes
 app.use('/api/story', storyRoutes);
 
-app.use(express.static(path.join(__dirname, '../client/build')));
+// Serve React frontend
+app.use(express.static(path.join(__dirname, '../frontend/build')));
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
 });
-// Health check
-app.get('/health', (req, res) => res.sendStatus(200));
 
 // Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
-  console.log(`HuggingFace key: ${process.env.HF_API_KEY ? 'Loaded' : 'Missing'}`);
 });
