@@ -1,24 +1,12 @@
 {
   "name": "ai-storytelling-project",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
-    "start": "cd backend && node index.js",
-    "build": "cd frontend && npm install && npm run build",
-    "postinstall": "cd backend && npm install",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node backend/index.js",
+    "backend-install": "cd backend && npm install",
+    "frontend-build": "cd frontend && npm install && npm run build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/saiprashanth751/ai-story-generator.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/saiprashanth751/ai-story-generator/issues"
-  },
-  "homepage": "https://github.com/saiprashanth751/ai-story-generator#readme"
+  "engines": {
+    "node": "20.14.0"
+  }
 }
